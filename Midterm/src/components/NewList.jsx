@@ -7,6 +7,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Pagination from 'react-bootstrap/Pagination';
 
 
+
+
 function NewsList() {
   const [page, setPage] = useState(1);
   const [articles, setArticles] = useState([]);
@@ -19,15 +21,15 @@ function NewsList() {
 
   useEffect(() => {
     const apiKey = 'da4d7e6c50e448bf8fb950be2633951c';
-    let apiUrl ;
+    let URL ;
 
     if (searchedKeyword) {
-      apiUrl = `https://newsapi.org/v2/everything?q=${searchedKeyword}&apiKey=${apiKey}&pageSize=${articlesPerPage}&page=${page}`;
+      URL = `https://newsapi.org/v2/everything?q=${searchedKeyword}&apiKey=${apiKey}&pageSize=${articlesPerPage}&page=${page}`;
     } else {
-      apiUrl = `https://newsapi.org/v2/everything?domains=wsj.com&apiKey=${apiKey}&pageSize=${articlesPerPage}&page=${page}`;
+      URL = `https://newsapi.org/v2/everything?domains=wsj.com&apiKey=${apiKey}&pageSize=${articlesPerPage}&page=${page}`;
     }
 
-    axios.get(apiUrl)
+    axios.get(URL)
       .then((response) => {
         setArticles(response.data.articles);
       })
@@ -44,25 +46,24 @@ function NewsList() {
   };
 
   const goToNextPage = () => {
-    changePage(page + 1);
+    if (page < lastpage){
+    changePage(page + 1)
+  }
   };
 
   const goToFirstPage = () => {
     changePage(1);
   };
 
-  const lastPage = 6;
+  const lastPage = 100;
 
   const goToLastPage = () => {
     changePage(lastPage);
   };
 
   return (
-    <div>
-      <div>
-        <header className='header'>Midterm News</header>
-      </div>
-
+    <div>  
+     
       <InputGroup style={{ width: '800'}} size="sm" className="mb-3 p-3">
         <InputGroup.Text id="inputGroup-sizing-sm">Search</InputGroup.Text>
         <Form.Control
